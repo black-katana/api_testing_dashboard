@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:english_words/english_words.dart';
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 
@@ -53,36 +53,57 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  int _counter = 0;
-  var _result = "Init";
+  // var _result = "Init";
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  var _suggestions = <WordPair>[];
+  final _biggerFont = const TextStyle(fontSize: 18.0);
+
+  // void _fetchData() async {
+  //   var url = "https://www.googleapis.com/books/v1/volumes?q={http}";
+
+  //   // Await the http get response, then decode the json-formatted responce.
+  //   var response = await http.get(url);
+  //   if (response.statusCode == 200) {
+  //     var jsonResponse = convert.jsonDecode(response.body);
+  //     var itemCount = jsonResponse['totalItems'];
+  //     // print("Number of books about http: $itemCount.");
+  //     setState(() {
+  //       _result = jsonResponse;
+  //     });
+  //   } else {
+  //     // print("Request failed with status: ${response.statusCode}.");
+  //     setState(() {
+  //       _result = "Request failed with status: ${response.statusCode}.";
+  //     });
+  //   }
+  // }
+
+  // #docregion _buildSuggestions
+  Widget _buildSuggestions() {
+    return ListView.builder(
+        padding: const EdgeInsets.all(16.0),
+        itemBuilder: /*1*/ (context, i) {
+          if (i.isOdd) return Divider(); /*2*/
+
+          final index = i ~/ 2; /*3*/
+          if (index >= _suggestions.length) {
+            _suggestions.addAll(generateWordPairs().take(10)); /*4*/
+          }
+          return _buildRow(_suggestions[index]);
+        });
   }
+  // #enddocregion _buildSuggestions
 
-  void _fetchData() async {
-    var url = "https://www.googleapis.com/books/v1/volumes?q={http}";
-
-    // Await the http get response, then decode the json-formatted responce.
-    var response = await http.get(url);
-    if (response.statusCode == 200) {
-      var jsonResponse = convert.jsonDecode(response.body);
-      var itemCount = jsonResponse['totalItems'];
-      print("Number of books about http: $itemCount.");
-      setState(() {
-        _result = jsonResponse;
-      });
-    } else {
-      print("Request failed with status: ${response.statusCode}.");
-    }
+  // #docregion _buildRow
+  Widget _buildRow(WordPair pair) {
+    return ListTile(
+      title: Text(
+        pair.asPascalCase,
+        style: _biggerFont,
+      ),
+    );
   }
+  // #enddocregion _buildRow
 
   @override
   Widget build(BuildContext context) {
@@ -98,40 +119,11 @@ class _LandingPageState extends State<LandingPage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have clicked the button this many times:',
-            ),
-            Text(
-              '$_result',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
-      ),
+      body: _buildSuggestions(),
       floatingActionButton: FloatingActionButton(
         onPressed: _fetchData,
         tooltip: 'Fetch',
-        child: Icon(Icons.add_to_queue),
+        child: Icon(Icons.new_releases),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
