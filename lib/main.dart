@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'dart:convert' as convert;
+import 'package:http/http.dart' as http;
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -7,21 +10,27 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'API Status',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: LandingPage(title: 'API Testing Dashboard'),
-    );
+        title: 'API Status',
+        theme: ThemeData(
+          // This is the theme of your application.
+          //
+          // Try running your application with "flutter run". You'll see the
+          // application has a blue toolbar. Then, without quitting the app, try
+          // changing the primarySwatch below to Colors.green and then invoke
+          // "hot reload" (press "r" in the console where you ran "flutter run",
+          // or simply save your changes to "hot reload" in a Flutter IDE).
+          // Notice that the counter didn't reset back to zero; the application
+          // is not restarted.
+          primarySwatch: Colors.blue,
+        ),
+        home: LandingPage(title: 'API Testing Dashboard'));
+    // home: Scaffold(
+    //     appBar: AppBar(
+    //       title: Text('Athena'),
+    //     ),
+    //     body: Center(
+    //       child: Text(uriResponse),
+    //     )));
   }
 }
 
@@ -45,6 +54,7 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   int _counter = 0;
+  var _result = "Init";
 
   void _incrementCounter() {
     setState(() {
@@ -55,6 +65,23 @@ class _LandingPageState extends State<LandingPage> {
       // called again, and so nothing would appear to happen.
       _counter++;
     });
+  }
+
+  void _fetchData() async {
+    var url = "https://www.googleapis.com/books/v1/volumes?q={http}";
+
+    // Await the http get response, then decode the json-formatted responce.
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      var jsonResponse = convert.jsonDecode(response.body);
+      var itemCount = jsonResponse['totalItems'];
+      print("Number of books about http: $itemCount.");
+      setState(() {
+        _result = jsonResponse;
+      });
+    } else {
+      print("Request failed with status: ${response.statusCode}.");
+    }
   }
 
   @override
@@ -95,16 +122,16 @@ class _LandingPageState extends State<LandingPage> {
               'You have clicked the button this many times:',
             ),
             Text(
-              '$_counter',
+              '$_result',
               style: Theme.of(context).textTheme.display1,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+        onPressed: _fetchData,
+        tooltip: 'Fetch',
+        child: Icon(Icons.add_to_queue),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
