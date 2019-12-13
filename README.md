@@ -7,7 +7,7 @@ A new Flutter project for displaying api testing results.
 - [x] List view
 - [ ] Fetch json data and display it.
 - [ ] Polish each section
-- [ ] [Separate biz logic from UI](https://github.com/felangel/bloc)
+- [ ] Second page that shows the details
 
 ## Setting up flutter
 
@@ -43,8 +43,5 @@ A few resources to get you started with a flutter project:
 - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 - [Flutter layout](https://flutter.dev/docs/development/ui/layout)
-
-API status examples
-
-- [github](https://www.githubstatus.com/#past-incidents)
-- [sendgrid](https://status.sendgrid.com/)
+- [Pragmatic State Management in Flutter](https://www.youtube.com/watch?v=d_m5csmrf7I)
+- [Flustter samples](https://github.com/flutter/samples)
