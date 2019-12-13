@@ -26,61 +26,47 @@ class SimpleObjectView extends StatelessWidget {
         TableRow(
           children: [
             Text(
-              'aString:',
+              'name:',
               style: boldStyle,
             ),
             Text(
-              simpleObject.aString != null
-                  ? '"${simpleObject.aString}"'
-                  : 'NULL',
+              simpleObject.name != null ? '"${simpleObject.name}"' : 'NULL',
               style: localTheme.body1,
             ),
           ],
         ),
         TableRow(
           children: [
-            Text('anInt:', style: boldStyle),
+            Text('totalTests:', style: boldStyle),
             Text(
-              simpleObject.anInt?.toString() ?? 'NULL',
-              style: localTheme.body1,
-            ),
-          ],
-        ),
-        TableRow(children: [
-          Text('aDouble:', style: boldStyle),
-          Text(
-            simpleObject.aDouble?.toString() ?? 'NULL',
-            style: localTheme.body1,
-          ),
-        ]),
-        TableRow(
-          children: [
-            Text('aListOfStrings:', style: boldStyle),
-            Text(
-              prettyPrintList(
-                simpleObject.aListOfStrings as Iterable<dynamic>,
-              ),
+              simpleObject.totalTests?.toString() ?? 'NULL',
               style: localTheme.body1,
             ),
           ],
         ),
         TableRow(
           children: [
-            Text('aListOfInts:', style: boldStyle),
+            Text('totalErrors:', style: boldStyle),
             Text(
-              prettyPrintList(simpleObject.aListOfInts as Iterable<dynamic>),
+              simpleObject.totalErrors?.toString() ?? 'NULL',
               style: localTheme.body1,
             ),
           ],
         ),
         TableRow(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: Text('aListOfDoubles:', style: boldStyle),
-            ),
+            Text('totalFailures:', style: boldStyle),
             Text(
-              prettyPrintList(simpleObject.aListOfDoubles as Iterable<dynamic>),
+              simpleObject.totalFailures?.toString() ?? 'NULL',
+              style: localTheme.body1,
+            ),
+          ],
+        ),
+        TableRow(
+          children: [
+            Text('totalSkips:', style: boldStyle),
+            Text(
+              simpleObject.totalFailures?.toString() ?? 'NULL',
               style: localTheme.body1,
             ),
           ],
@@ -101,10 +87,10 @@ class SimpleObjectViewList extends StatelessWidget {
 
     for (int i = 0; i < simpleObjects.length; i++) {
       widgets.addAll([
-        Text(
-          'SimpleObject $i:',
-          style: Theme.of(context).textTheme.subhead,
-        ),
+        // Text(
+        //   'SimpleObject $i:',
+        //   style: Theme.of(context).textTheme.subhead,
+        // ),
         const SizedBox(height: 4.0),
         SimpleObjectView(simpleObjects[i]),
         const SizedBox(height: 24.0),
@@ -120,175 +106,175 @@ class SimpleObjectViewList extends StatelessWidget {
   }
 }
 
-class ComplexObjectView extends StatelessWidget {
-  final dynamic complexObject;
+// class ComplexObjectView extends StatelessWidget {
+//   final dynamic complexObject;
 
-  ComplexObjectView(dynamic obj) : complexObject = obj;
+//   ComplexObjectView(dynamic obj) : complexObject = obj;
 
-  List<Widget> _generateSimpleObjectWidgets(Iterable<dynamic> simpleObjects) {
-    if (simpleObjects == null) {
-      return [
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.0),
-          child: Text('NULL'),
-        ),
-      ];
-    }
+//   List<Widget> _generateSimpleObjectWidgets(Iterable<dynamic> simpleObjects) {
+//     if (simpleObjects == null) {
+//       return [
+//         const Padding(
+//           padding: EdgeInsets.symmetric(vertical: 8.0),
+//           child: Text('NULL'),
+//         ),
+//       ];
+//     }
 
-    if (simpleObjects.isEmpty) {
-      return [
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 4.0),
-          child: Text('[]'),
-        ),
-      ];
-    }
+//     if (simpleObjects.isEmpty) {
+//       return [
+//         const Padding(
+//           padding: EdgeInsets.symmetric(vertical: 4.0),
+//           child: Text('[]'),
+//         ),
+//       ];
+//     }
 
-    return simpleObjects
-        .expand((dynamic o) => [
-              const SizedBox(height: 4.0),
-              SimpleObjectView(o),
-              const SizedBox(height: 4.0),
-            ])
-        .toList();
-  }
+//     return simpleObjects
+//         .expand((dynamic o) => [
+//               const SizedBox(height: 4.0),
+//               SimpleObjectView(o),
+//               const SizedBox(height: 4.0),
+//             ])
+//         .toList();
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    final localTheme = Theme.of(context).textTheme;
-    final boldStyle = localTheme.body1.copyWith(fontWeight: FontWeight.w600);
+//   @override
+//   Widget build(BuildContext context) {
+//     final localTheme = Theme.of(context).textTheme;
+//     final boldStyle = localTheme.body1.copyWith(fontWeight: FontWeight.w600);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Table(
-          columnWidths: const {
-            0: IntrinsicColumnWidth(),
-            1: FlexColumnWidth(1.0),
-          },
-          children: [
-            TableRow(
-              children: [
-                Text('aString:', style: boldStyle),
-                Text(
-                    complexObject.aString != null
-                        ? '"${complexObject.aString}"'
-                        : 'NULL',
-                    style: localTheme.body1),
-              ],
-            ),
-            TableRow(
-              children: [
-                Text('anInt:', style: boldStyle),
-                Text(complexObject.anInt?.toString() ?? 'NULL',
-                    style: localTheme.body1),
-              ],
-            ),
-            TableRow(
-              children: [
-                Text('aDouble:', style: boldStyle),
-                Text(complexObject.aDouble?.toString() ?? 'NULL',
-                    style: localTheme.body1),
-              ],
-            ),
-            TableRow(
-              children: [
-                Text('anObject:', style: boldStyle),
-                Container(),
-              ],
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(24.0, 4.0, 0.0, 4.0),
-          child: SimpleObjectView(complexObject.anObject),
-        ),
-        Table(
-          columnWidths: const {
-            0: IntrinsicColumnWidth(),
-            1: FlexColumnWidth(1.0),
-          },
-          children: [
-            TableRow(
-              children: [
-                Text('aListOfStrings:', style: boldStyle),
-                Text(
-                  prettyPrintList(
-                      complexObject.aListOfStrings as Iterable<dynamic>),
-                  style: localTheme.body1,
-                ),
-              ],
-            ),
-            TableRow(
-              children: [
-                Text('aListOfInts:', style: boldStyle),
-                Text(
-                  prettyPrintList(
-                      complexObject.aListOfInts as Iterable<dynamic>),
-                  style: localTheme.body1,
-                ),
-              ],
-            ),
-            TableRow(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Text('aListOfDoubles:', style: boldStyle),
-                ),
-                Text(
-                  prettyPrintList(
-                      complexObject.aListOfDoubles as Iterable<dynamic>),
-                  style: localTheme.body1,
-                ),
-              ],
-            ),
-            TableRow(
-              children: [
-                Text('aListOfObjects:', style: boldStyle),
-                Container()
-              ],
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: _generateSimpleObjectWidgets(
-                complexObject.aListOfObjects as Iterable<dynamic>),
-          ),
-        ),
-      ],
-    );
-  }
-}
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         Table(
+//           columnWidths: const {
+//             0: IntrinsicColumnWidth(),
+//             1: FlexColumnWidth(1.0),
+//           },
+//           children: [
+//             TableRow(
+//               children: [
+//                 Text('aString:', style: boldStyle),
+//                 Text(
+//                     complexObject.aString != null
+//                         ? '"${complexObject.aString}"'
+//                         : 'NULL',
+//                     style: localTheme.body1),
+//               ],
+//             ),
+//             TableRow(
+//               children: [
+//                 Text('anInt:', style: boldStyle),
+//                 Text(complexObject.anInt?.toString() ?? 'NULL',
+//                     style: localTheme.body1),
+//               ],
+//             ),
+//             TableRow(
+//               children: [
+//                 Text('aDouble:', style: boldStyle),
+//                 Text(complexObject.aDouble?.toString() ?? 'NULL',
+//                     style: localTheme.body1),
+//               ],
+//             ),
+//             TableRow(
+//               children: [
+//                 Text('anObject:', style: boldStyle),
+//                 Container(),
+//               ],
+//             ),
+//           ],
+//         ),
+//         Padding(
+//           padding: const EdgeInsets.fromLTRB(24.0, 4.0, 0.0, 4.0),
+//           child: SimpleObjectView(complexObject.anObject),
+//         ),
+//         Table(
+//           columnWidths: const {
+//             0: IntrinsicColumnWidth(),
+//             1: FlexColumnWidth(1.0),
+//           },
+//           children: [
+//             TableRow(
+//               children: [
+//                 Text('aListOfStrings:', style: boldStyle),
+//                 Text(
+//                   prettyPrintList(
+//                       complexObject.aListOfStrings as Iterable<dynamic>),
+//                   style: localTheme.body1,
+//                 ),
+//               ],
+//             ),
+//             TableRow(
+//               children: [
+//                 Text('aListOfInts:', style: boldStyle),
+//                 Text(
+//                   prettyPrintList(
+//                       complexObject.aListOfInts as Iterable<dynamic>),
+//                   style: localTheme.body1,
+//                 ),
+//               ],
+//             ),
+//             TableRow(
+//               children: [
+//                 Padding(
+//                   padding: const EdgeInsets.only(right: 8.0),
+//                   child: Text('aListOfDoubles:', style: boldStyle),
+//                 ),
+//                 Text(
+//                   prettyPrintList(
+//                       complexObject.aListOfDoubles as Iterable<dynamic>),
+//                   style: localTheme.body1,
+//                 ),
+//               ],
+//             ),
+//             TableRow(
+//               children: [
+//                 Text('aListOfObjects:', style: boldStyle),
+//                 Container()
+//               ],
+//             ),
+//           ],
+//         ),
+//         Padding(
+//           padding: const EdgeInsets.only(left: 24.0),
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: _generateSimpleObjectWidgets(
+//                 complexObject.aListOfObjects as Iterable<dynamic>),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
 
-class ComplexObjectViewList extends StatelessWidget {
-  ComplexObjectViewList(List<dynamic> objects) : complexObjects = objects;
+// class ComplexObjectViewList extends StatelessWidget {
+//   ComplexObjectViewList(List<dynamic> objects) : complexObjects = objects;
 
-  final List<dynamic> complexObjects;
+//   final List<dynamic> complexObjects;
 
-  @override
-  Widget build(BuildContext context) {
-    final widgets = <Widget>[];
+//   @override
+//   Widget build(BuildContext context) {
+//     final widgets = <Widget>[];
 
-    for (int i = 0; i < complexObjects.length; i++) {
-      widgets.addAll([
-        Text(
-          'Complex Object $i:',
-          style: Theme.of(context).textTheme.subhead,
-        ),
-        const SizedBox(height: 4.0),
-        ComplexObjectView(complexObjects[i]),
-        const SizedBox(height: 24.0),
-      ]);
-    }
+//     for (int i = 0; i < complexObjects.length; i++) {
+//       widgets.addAll([
+//         Text(
+//           'Complex Object $i:',
+//           style: Theme.of(context).textTheme.subhead,
+//         ),
+//         const SizedBox(height: 4.0),
+//         ComplexObjectView(complexObjects[i]),
+//         const SizedBox(height: 24.0),
+//       ]);
+//     }
 
-    widgets.removeLast();
+//     widgets.removeLast();
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: widgets,
-    );
-  }
-}
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: widgets,
+//     );
+//   }
+// }
