@@ -66,82 +66,56 @@ class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Proteus API Status'),
-      ),
-      body: FutureBuilder<List<Status>>(
-        future: fetchData(http.Client()),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) print(snapshot.error);
-
-          return snapshot.hasData
-              ? StatusList(statuses: snapshot.data)
-              : Center(child: CircularProgressIndicator());
-        },
-      ),
-    );
+        appBar: AppBar(
+          title: Text('Proteus API Status'),
+        ),
+        body: ConvertedListPage());
   }
 }
 
-class StatusList extends StatelessWidget {
-  final List<Status> statuses;
-  StatusList({Key key, this.statuses}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    // return ListView.builder(
-    //   itemCount: statuses.length,
-    //   itemBuilder: (context, index) {
-    //     return ListTile(title: Text('${statuses[index].name}'));
-    //   },
-    // );
-
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 1,
-      ),
-      itemCount: statuses.length,
-      itemBuilder: (context, index) {
-        return Text(statuses[index].name);
-      },
-    );
-  }
-}
 // class LandingPage extends StatelessWidget {
-// Future<Status> apitStatus;
-
 //   @override
-//   void initState() {
-//     super.initState();
-//     apitStatus = fetchData();
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Proteus API Status'),
+//       ),
+//       body: FutureBuilder<List<Status>>(
+//         future: fetchData(http.Client()),
+//         builder: (context, snapshot) {
+//           print(snapshot);
+//           if (snapshot.hasError) print(snapshot.error);
+
+//           return snapshot.hasData
+//               ? StatusList(statuses: snapshot.data)
+//               : Center(child: CircularProgressIndicator());
+//         },
+//       ),
+//     );
 //   }
+// }
+
+// class StatusList extends StatelessWidget {
+//   final List<Status> statuses;
+//   StatusList({Key key, this.statuses}) : super(key: key);
 
 //   @override
 //   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'API Status',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
+//     // return ListView.builder(
+//     //   itemCount: statuses.length,
+//     //   itemBuilder: (context, index) {
+//     //     return ListTile(title: Text('${statuses[index].name}'));
+//     //   },
+//     // );
+
+//     return GridView.builder(
+//       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//         crossAxisCount: 1,
 //       ),
-//       home: Scaffold(
-//         appBar: AppBar(
-//           // Here we take the value from the LandingPage object that was created by
-//           // the App.build method, and use it to set our appbar title.
-//           title: Text('API Testing Dashboard'),
-//         ),
-//         body: Center(
-//           child: FutureBuilder<List <Status>>(
-//               future: apitStatus,
-//               builder: (context, snapshot) {
-//                 if (snapshot.hasData) {
-//                   return Text(snapshot.data.name);
-//                 } else if (snapshot.hasError) {
-//                   return Text("${snapshot.error}");
-//                 }
-//                 return CircularProgressIndicator();
-//               }),
-//         ),
-//       ),
+//       itemCount: statuses.length,
+//       itemBuilder: (context, index) {
+//         return Text(statuses[index].name);
+//       },
 //     );
 //   }
 // }
