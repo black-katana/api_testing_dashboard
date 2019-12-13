@@ -6,6 +6,7 @@ A new Flutter project for displaying api testing results.
 
 - [x] List view
 - [x] Fetch json data and display it.
+- [ ] Json from api endpoint
 - [ ] Polish each section
 - [ ] Second page that shows the details
 
